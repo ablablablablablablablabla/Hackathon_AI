@@ -1,4 +1,3 @@
-
 import re
 import asyncio
 from typing import Dict, Any
@@ -228,4 +227,5 @@ async def run_doppelganger_search(input_text: str, client: OpenAI) -> Dict[str, 
         "all_doppelgangers_with_reasons": ranking["all_doppelgangers_with_reasons"],
         "top_3": ranking["top_3"]
     }
+
 
