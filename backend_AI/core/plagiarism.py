@@ -1,4 +1,4 @@
-# api/core/plagiarism.py
+
 import re
 import numpy as np
 import asyncio
@@ -10,7 +10,7 @@ from adapters.web_parser import extract_abstract_from_url
 from settings import settings
 from logger import logger
 
-# Helper to run synchronous OpenAI client calls without blocking loop
+
 async def _run_sync(fn, *args, **kwargs):
     return await asyncio.to_thread(fn, *args, **kwargs)
 
@@ -203,3 +203,4 @@ async def run_plagiarism_check(input_text: str, client: OpenAI) -> Dict[str, Any
         "message": "No significant plagiarism detected",
         "max_similarity_encountered": round(max_sim, 3)
     }
+
