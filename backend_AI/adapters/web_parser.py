@@ -1,4 +1,3 @@
-# api/adapters/web_parser.py
 import httpx
 from bs4 import BeautifulSoup
 import re
@@ -8,7 +7,7 @@ from settings import settings
 from time import time
 
 _cache = {}
-_CACHE_TTL = 60 * 60  # 1 hour
+_CACHE_TTL = 60 * 60  
 
 def _cache_get(key):
     entry = _cache.get(key)
@@ -45,7 +44,7 @@ async def extract_abstract_from_url(url: str) -> str:
     try:
         soup = BeautifulSoup(text, 'html.parser')
 
-        # 1) common explicit selectors
+     
         selectors = [
             ("section", {"class": re.compile("abstract", re.I)}),
             ("div", {"class": re.compile("abstract", re.I)}),
@@ -57,14 +56,13 @@ async def extract_abstract_from_url(url: str) -> str:
         for tag, attrs in selectors:
             el = soup.find(tag, attrs=attrs)
             if el:
-                # pick first non-empty paragraph-ish text
                 p = el.find('p') or el
                 text_content = p.get_text(separator=" ", strip=True)
                 if text_content and len(text_content) > 50:
                     _cache_set(url, text_content)
                     return text_content
 
-        # 2) meta description fallback
+    
         meta = soup.find('meta', attrs={'name': re.compile('description', re.I)}) \
                or soup.find('meta', attrs={'property': re.compile('og:description', re.I)})
         if meta:
@@ -73,7 +71,6 @@ async def extract_abstract_from_url(url: str) -> str:
                 _cache_set(url, content)
                 return content
 
-        # 3) heuristic: first sizable <p> inside article/main
         main = soup.find('main') or soup.find('article') or soup
         for p in main.find_all('p'):
             txt = p.get_text(separator=" ", strip=True)
@@ -85,3 +82,4 @@ async def extract_abstract_from_url(url: str) -> str:
         logger.debug(f"Failed to parse HTML {url}: {e}")
 
     return ""
+
