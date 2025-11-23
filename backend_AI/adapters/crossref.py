@@ -1,4 +1,3 @@
-# api/adapters/crossref.py
 import httpx
 import asyncio
 from typing import List, Dict, Any
@@ -7,7 +6,6 @@ from time import time
 from logger import logger
 from settings import settings
 
-# простой in-memory TTL cache
 _cache = {}
 _CACHE_TTL = 60 * 60  # 1 hour
 
@@ -50,3 +48,4 @@ async def search_papers_on_crossref(query: str, limit: int = 100) -> List[Dict[s
         except Exception as e:
             logger.error(f"Crossref API error: {e}")
     return []
+
