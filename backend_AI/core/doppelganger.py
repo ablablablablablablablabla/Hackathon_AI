@@ -1,4 +1,4 @@
-# api/core/doppelganger.py
+
 import re
 import asyncio
 from typing import Dict, Any
@@ -8,7 +8,6 @@ from adapters.web_parser import extract_abstract_from_url
 from settings import settings
 from logger import logger
 
-# reuse helper to run sync OpenAI calls without blocking
 async def _run_sync(fn, *args, **kwargs):
     return await asyncio.to_thread(fn, *args, **kwargs)
 
@@ -229,3 +228,4 @@ async def run_doppelganger_search(input_text: str, client: OpenAI) -> Dict[str, 
         "all_doppelgangers_with_reasons": ranking["all_doppelgangers_with_reasons"],
         "top_3": ranking["top_3"]
     }
+
