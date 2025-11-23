@@ -1,4 +1,3 @@
-# api/adapters/pdf_parser.py
 import fitz  # PyMuPDF
 from logger import logger
 
@@ -17,3 +16,4 @@ def extract_text_from_pdf(pdf_path: str, max_chars: int = 5000) -> str:
     except Exception as e:
         logger.exception("Error extracting text from PDF")
         return ""
+
