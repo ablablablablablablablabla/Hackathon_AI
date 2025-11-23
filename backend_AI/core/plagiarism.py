@@ -1,4 +1,3 @@
-
 import re
 import numpy as np
 import asyncio
@@ -203,5 +202,6 @@ async def run_plagiarism_check(input_text: str, client: OpenAI) -> Dict[str, Any
         "message": "No significant plagiarism detected",
         "max_similarity_encountered": round(max_sim, 3)
     }
+
 
 
