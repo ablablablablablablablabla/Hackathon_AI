@@ -162,7 +162,7 @@ async def run_plagiarism_check(input_text: str, client: OpenAI) -> Dict[str, Any
         if not art_summary:
             return None
 
-        # preserve LLM + embedding calls (no reduction)
+    
         llm_sim = await get_llm_similarity_score(summary, art_summary, client)
         local_sim = await get_embedding_similarity(input_text[:2000], abstract[:2000], client)
         combined_score = 0.7 * llm_sim + 0.3 * local_sim
@@ -184,9 +184,9 @@ async def run_plagiarism_check(input_text: str, client: OpenAI) -> Dict[str, Any
             }
         return None
 
-    # parallelize processing of papers (preserve per-paper API calls)
+
     tasks = [process_paper(p) for p in papers]
-    # limit concurrency to a reasonable number to avoid bursting OpenAI/remote services:
+
     semaphore = asyncio.Semaphore(6)
 
     async def sem_task(t):
@@ -203,4 +203,5 @@ async def run_plagiarism_check(input_text: str, client: OpenAI) -> Dict[str, Any
         "message": "No significant plagiarism detected",
         "max_similarity_encountered": round(max_sim, 3)
     }
+
 
